@@ -8,6 +8,8 @@ Your feedback is highly appreciated!
 
 ## Development
 
+You will need to [install Node for your system](https://nodejs.org/en/download/).
+
 To run the visualization locally, run:
 - `npm i` to install dependencies
 - `npm run build` to compile the app and place it in the `dist/` directory
