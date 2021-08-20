@@ -165,7 +165,7 @@ let linkWidthScale = d3.scale.linear()
   .clamp(true);
 let colorScale = d3.scale.linear<string, number>()
                      .domain([-1, 0, 1])
-                     .range(["#f59322", "#e8eaeb", "#0877bd"])
+                     .range(["#325396", "#e8eaeb", "#16afca"])
                      .clamp(true);
 let iter = 0;
 let trainData: Example2D[] = [];
