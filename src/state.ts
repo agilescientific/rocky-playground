@@ -126,8 +126,8 @@ export class State {
     {name: "ySquared", type: Type.BOOLEAN},
     {name: "cosX", type: Type.BOOLEAN},
     {name: "sinX", type: Type.BOOLEAN},
-    {name: "cosY", type: Type.BOOLEAN},
-    {name: "sinY", type: Type.BOOLEAN},
+    {name: "logX", type: Type.BOOLEAN},
+    {name: "logY", type: Type.BOOLEAN},
     {name: "collectStats", type: Type.BOOLEAN},
     {name: "tutorial", type: Type.STRING},
     {name: "problem", type: Type.OBJECT, keyMap: problems},
@@ -162,6 +162,8 @@ export class State {
   sinX = false;
   cosY = false;
   sinY = false;
+  logX = false;
+  logY = false
   dataset: dataset.DataGenerator = dataset.classifyCircleData;
   regDataset: dataset.DataGenerator = dataset.regressPlane;
   seed: string;
