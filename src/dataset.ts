@@ -14,6 +14,7 @@ limitations under the License.
 ==============================================================================*/
 
 import * as d3 from 'd3';
+import make_moons from './moons';
 import sandShaleData from '../data/sand-shale.json';
 
 /**
@@ -167,6 +168,24 @@ export function classifySpiralData(numSamples: number, noise: number):
   return points;
 }
 
+// Uses code from moons.ts, from github.com/thekevinscott,
+// which I could not get to install + work using npm.
+export function classifyMoonsData(numSamples: number, noise: number):
+    Example2D[] {
+  let n = numSamples / 2;
+  noise = noise * 0.8 + 0.2;
+  let pos = make_moons({type: 'pos', n_samples: numSamples, noise: noise});
+  pos.forEach(x => x.label = 1);
+  pos.forEach(x => x.x = x.x * 8 - 4)
+  pos.forEach(x => x.y *= 4.5);
+  let neg = make_moons({type: 'neg', n_samples: numSamples, noise: noise});
+  neg.forEach(x => x.label = -1);
+  neg.forEach(x => x.x = x.x * 8 - 4);
+  neg.forEach(x => x.y *= 4.5);
+  let points: Example2D[] = pos.concat(neg);
+  return points;
+}
+
 export function classifyCircleData(numSamples: number, noise: number):
     Example2D[] {
   let points: Example2D[] = [];
@@ -200,6 +219,24 @@ export function classifyCircleData(numSamples: number, noise: number):
   }
   return points;
 }
+
+export function classifyLinearData(numSamples: number, noise: number):
+    Example2D[] {
+      function getLinearLabel(p: Point) { return p.x >= 0 ? 1 : -1; }
+
+      let points: Example2D[] = [];
+      for (let i = 0; i < numSamples; i++) {
+        let x = randUniform(-5, 5);
+        let padding = 0.3;
+        x += x > 0 ? padding : -padding;  // Padding.
+        let y = randUniform(-5, 5);
+        let noiseX = randUniform(-5, 5) * noise;
+        let noiseY = randUniform(-5, 5) * noise;
+        let label = getLinearLabel({x: x + noiseX, y: y + noiseY});
+        points.push({x, y, label});
+      }
+      return points;
+    }
 
 export function classifyXORData(numSamples: number, noise: number):
     Example2D[] {
@@ -247,7 +284,7 @@ function normalRandom(mean = 0, variance = 1): number {
   return mean + Math.sqrt(variance) * result;
 }
 
-/** Returns the eucledian distance between two points in space. */
+/** Returns the Euclidian distance between two points in space. */
 function dist(a: Point, b: Point): number {
   let dx = a.x - b.x;
   let dy = a.y - b.y;
