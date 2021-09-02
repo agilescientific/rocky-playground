@@ -123,9 +123,16 @@ export class Activations {
     output: x => Math.max(0, x),
     der: x => x <= 0 ? 0 : 1
   };
+  public static LeakyRELU: ActivationFunction = {
+    output: x => x <= 0 ? 0.1 * x : x,
+    der: x => x <= 0 ? 0.1 : 1
+  };
   public static ELU: ActivationFunction = {
-    output: x => x <= 0 ? 0.01 * (Math.exp(x) -1) : x,
-    der: x => x <= 0 ? 0.01 * Math.exp(x) : 1
+    output: x => x <= 0 ? 0.1 * (Math.exp(x) - 1) : x,
+    der: x => {
+      let output = Activations.ELU.output(x);
+      return output + 0.1;
+    }
   };
   public static SIGMOID: ActivationFunction = {
     output: x => 1 / (1 + Math.exp(-x)),

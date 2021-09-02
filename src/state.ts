@@ -22,6 +22,7 @@ const HIDE_STATE_SUFFIX = "_hide";
 /** A map between names and activation functions. */
 export let activations: {[key: string]: nn.ActivationFunction} = {
   "relu": nn.Activations.RELU,
+  "leakyrelu": nn.Activations.LeakyRELU,
   "elu": nn.Activations.ELU,
   "tanh": nn.Activations.TANH,
   "sigmoid": nn.Activations.SIGMOID,
@@ -144,7 +145,7 @@ export class State {
   discretize = false;
   tutorial: string = null;
   percTrainData = 50;
-  activation = nn.Activations.TANH;
+  activation = nn.Activations.SIGMOID;
   regularization: nn.RegularizationFunction = null;
   problem = Problem.CLASSIFICATION;
   initZero = false;
@@ -152,19 +153,13 @@ export class State {
   collectStats = false;
   numHiddenLayers = 1;
   hiddenLayerControls: any[] = [];
-  networkShape: number[] = [4, 2];
+  networkShape: number[] = [4];
   x = true;
   y = true;
   xTimesY = false;
   xSquared = false;
   ySquared = false;
-  cosX = false;
-  sinX = false;
-  cosY = false;
-  sinY = false;
-  logX = false;
-  logY = false
-  dataset: dataset.DataGenerator = dataset.classifyCircleData;
+  dataset: dataset.DataGenerator = dataset.classifyRocksData;
   regDataset: dataset.DataGenerator = dataset.regressPlane;
   seed: string;
 
