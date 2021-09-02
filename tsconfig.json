@@ -2,7 +2,10 @@
   "compilerOptions": {
     "module": "commonjs",
     "removeComments": true,
-    "preserveConstEnums": true
+    "preserveConstEnums": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
   },
   "exclude": [
     "node_modules" 
