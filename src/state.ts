@@ -37,27 +37,56 @@ export let regularizations: {[key: string]: nn.RegularizationFunction} = {
   "L2": nn.RegularizationFunction.L2
 };
 
-/** A map between dataset names and functions that generate classification data. */
-export let datasets: {[key: string]: dataset.DataGenerator} = {
-  "linear": dataset.classifyLinearData,
-  "circle": dataset.classifyCircleData,
-  "xor": dataset.classifyXORData,
-  "gauss": dataset.classifyTwoGaussData,
-  "moons": dataset.classifyMoonsData,
-  "spiral": dataset.classifySpiralData,
-  "rocks": dataset.classifyRocksData,
+/** DatasetGenerator class contains generator functions for training and
+ *  testing data. */
+ class DatasetGenerator {
+  trainGenerator: dataset.DataGenerator;
+  testGenerator: dataset.DataGenerator;
+
+  // if only one generator is supplied it is used for training and testing
+  constructor(trainGenerator: dataset.DataGenerator,
+              testGenerator ?: dataset.DataGenerator) {
+    this.trainGenerator = trainGenerator;
+    this.testGenerator = testGenerator == null ? trainGenerator : testGenerator;
+  }
+
+   equals(other: DatasetGenerator) {
+     return (this.trainGenerator === other.trainGenerator &&
+             this.testGenerator === other.testGenerator);
+   }
+}
+
+/** A map between dataset names and the DatasetGenerator that contains
+ *  functions to geneterate classification data. */
+export let datasets: {[key: string]: DatasetGenerator} = {
+  "linear": new DatasetGenerator(dataset.classifyLinearData),
+  "moons": new DatasetGenerator(dataset.classifyMoonsData),
+  "rocks": new DatasetGenerator(dataset.classifyRocksTrainData, dataset.classifyRocksTestData),
+  "circle": new DatasetGenerator(dataset.classifyCircleData),
+  "xor": new DatasetGenerator(dataset.classifyXORData),
+  "gauss": new DatasetGenerator(dataset.classifyTwoGaussData),
+  "spiral": new DatasetGenerator(dataset.classifySpiralData),
+  "diagonal": new DatasetGenerator(dataset.classifyDiagonalTrainData, dataset.classifyDiagonalTestData),
 };
 
-/** A map between dataset names and functions that generate regression data. */
-export let regDatasets: {[key: string]: dataset.DataGenerator} = {
-  "reg-plane": dataset.regressPlane,
-  "reg-gauss": dataset.regressGaussian
+/** A map between dataset names and the DatasetGenerator that contains
+ *  functions to geneterate regression data. */
+ export let regDatasets: {[key: string]: DatasetGenerator} = {
+  "reg-plane": new DatasetGenerator(dataset.regressPlane),
+  "reg-gauss": new DatasetGenerator(dataset.regressGaussian),
+  "reg-porosity": new DatasetGenerator(dataset.regressPorosityTrainData, dataset.regressPorosityTestData),
 };
 
 export function getKeyFromValue(obj: any, value: any): string {
   for (let key in obj) {
-    if (obj[key] === value) {
-      return key;
+    if (value instanceof DatasetGenerator) {
+      if (obj[key].equals(value)) {
+        return key;
+      }
+    } else {
+      if (obj[key] === value) {
+        return key;
+      }
     }
   }
   return undefined;
@@ -162,8 +191,8 @@ export class State {
   xTimesY = false;
   xSquared = false;
   ySquared = false;
-  dataset: dataset.DataGenerator = dataset.classifyRocksData;
-  regDataset: dataset.DataGenerator = dataset.regressPlane;
+  dataset: DatasetGenerator = new DatasetGenerator(dataset.classifyCircleData);
+  regDataset: DatasetGenerator = new DatasetGenerator(dataset.regressPlane);
   seed: string;
 
   /**

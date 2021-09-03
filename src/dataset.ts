@@ -16,6 +16,7 @@ limitations under the License.
 import * as d3 from 'd3';
 import make_moons from './moons';
 import sandShaleData from '../data/sand-shale.json';
+import porosityData from '../data/porosity.json';
 
 /**
  * A two dimensional example: x and y coordinates with the label.
@@ -72,6 +73,20 @@ export function classifyTwoGaussData(numSamples: number, noise: number):
   genGauss(2, 2, 1); // Gaussian with positive examples.
   genGauss(-2, -2, -1); // Gaussian with negative examples.
   return points;
+}
+
+export function regressPorosityTrainData(numSamples: number, noise: number):
+  Example2D[] {
+    let n = 85 * numSamples / 400;
+    let points: Example2D[] = porosityData.slice(0, n);
+    return points;
+}
+
+export function regressPorosityTestData(numSamples: number, noise: number):
+  Example2D[] {
+    let n = 85 * numSamples / 400;
+    let points: Example2D[] = porosityData.slice(-n);
+    return points;
 }
 
 export function regressPlane(numSamples: number, noise: number):
@@ -135,7 +150,7 @@ export function regressGaussian(numSamples: number, noise: number):
   return points;
 }
 
-export function classifyRocksData(numSamples: number, noise: number):
+export function classifyRocksTrainData(numSamples: number, noise: number):
     Example2D[] {
 
       let positive = sandShaleData.filter(x => x.label ==  1);
@@ -148,6 +163,19 @@ export function classifyRocksData(numSamples: number, noise: number):
       return points;
     }
 
+export function classifyRocksTestData(numSamples: number, noise: number):
+    Example2D[] {
+
+      let positive = sandShaleData.filter(x => x.label ==  1);
+      let negative = sandShaleData.filter(x => x.label == -1);
+
+      let n = numSamples / 2;
+      let pos = positive.slice(-n);
+      let neg = negative.slice(-n);
+      let points: Example2D[] = pos.concat(neg);
+      return points;
+    }
+
 export function classifySpiralData(numSamples: number, noise: number):
     Example2D[] {
   let points: Example2D[] = [];
@@ -155,8 +183,9 @@ export function classifySpiralData(numSamples: number, noise: number):
 
   function genSpiral(deltaT: number, label: number) {
     for (let i = 0; i < n; i++) {
-      let r = i / n * 5;
-      let t = 1.75 * i / n * 2 * Math.PI + deltaT;
+      let j = randUniform(0, n);
+      let r = j / n * 5;
+      let t = 1.75 * j / n * 2 * Math.PI + deltaT;
       let x = r * Math.sin(t) + randUniform(-1, 1) * noise;
       let y = r * Math.cos(t) + randUniform(-1, 1) * noise;
       points.push({x, y, label});
@@ -168,12 +197,75 @@ export function classifySpiralData(numSamples: number, noise: number):
   return points;
 }
 
+// Uses code from github.com/aboggust for of playground.
+// https://github.com/aboggust/playground
+export function classifyDiagonalTrainData(numSamples: number, noise: number):
+    Example2D[] {
+  function getDiagonalLabel(p: Point) { return p.y <= -p.x ? 1 : -1; }
+
+  let points: Example2D[] = [];
+  let numNoiseSamples = numSamples * noise;
+  let numNegSamples  = (numSamples - numNoiseSamples) / 2;
+  let numPosSamples = numNegSamples;
+
+  let padding = 0.5;  // More padding means bigger gap.
+
+  // Generate the negative examples in the upper triangle.
+  for (let i = 0; i < numNegSamples; i++) {
+    let x = randUniform(-5, 5);
+    let y = randUniform(-x, 5);
+    x += y > -x ? padding : -padding; // pad the diagonal
+    let label = -1;
+    points.push({x, y, label});
+  }
+
+  padding = 2.0;  // Asymmetric padding for more errors.
+
+  // Generate the positive examples as a subset of the lower triangle.
+  for (let i = 0; i < numPosSamples; i ++) {
+    let x = randUniform(-5, 2);
+    let y = randUniform(-5, Math.min(-x, 2));
+    x += y > -x ? padding : -padding; // pad the diagonal
+    let label = 1;
+    points.push({x, y, label});
+  }
+
+  // Generate noise data points across entire plane.
+  for (let i = 0; i < numNoiseSamples / 2; i++) {
+    let x = randUniform(-5, 5);
+    let y = randUniform(-5, 5);
+    let noiseX = randUniform(-5, 5);
+    let noiseY = randUniform(-5, 5);
+    let label = getDiagonalLabel({x: x + noiseX, y: y + noiseY});
+    points.push({x, y, label});
+  }
+
+  return points;
+}
+
+export function classifyDiagonalTestData(numSamples: number, noise: number):
+    Example2D[] {
+  function getDiagonalLabel(p: Point) { return p.y <= -p.x ? 1 : -1; }
+
+  // Generate negative data below the diagonal and positive data above.
+  let points: Example2D[] = [];
+  for (let i = 0; i < numSamples; i++) {
+    let x = randUniform(-5, 5);
+    let y = randUniform(-5, 5);
+    let noiseX = randUniform(-5, 5) * noise;
+    let noiseY = randUniform(-5, 5) * noise;
+    let label = getDiagonalLabel({x: x + noiseX, y: y + noiseY});
+    points.push({x, y, label});
+  }
+  return points;
+}
+
 // Uses code from moons.ts, from github.com/thekevinscott,
 // which I could not get to install + work using npm.
 export function classifyMoonsData(numSamples: number, noise: number):
     Example2D[] {
   let n = numSamples / 2;
-  noise = noise * 0.8 + 0.2;
+  noise = noise * 0.9 + 0.1;
   let pos = make_moons({type: 'pos', n_samples: numSamples, noise: noise});
   pos.forEach(x => x.label = 1);
   pos.forEach(x => x.x = x.x * 8 - 4)
