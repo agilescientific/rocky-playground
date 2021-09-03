@@ -62,6 +62,7 @@ export let datasets: {[key: string]: DatasetGenerator} = {
   "linear": new DatasetGenerator(dataset.classifyLinearData),
   "moons": new DatasetGenerator(dataset.classifyMoonsData),
   "rocks": new DatasetGenerator(dataset.classifyRocksTrainData, dataset.classifyRocksTestData),
+  "poroperm": new DatasetGenerator(dataset.classifyPoroPermTrainData, dataset.classifyPoroPermTestData),
   "circle": new DatasetGenerator(dataset.classifyCircleData),
   "xor": new DatasetGenerator(dataset.classifyXORData),
   "gauss": new DatasetGenerator(dataset.classifyTwoGaussData),

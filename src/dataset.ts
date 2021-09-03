@@ -17,6 +17,7 @@ import * as d3 from 'd3';
 import make_moons from './moons';
 import sandShaleData from '../data/sand-shale.json';
 import porosityData from '../data/porosity.json';
+import poroPermData from '../data/poro-perm-sands.json';
 
 /**
  * A two dimensional example: x and y coordinates with the label.
@@ -171,6 +172,32 @@ export function classifyRocksTestData(numSamples: number, noise: number):
 
       let n = numSamples / 2;
       let pos = positive.slice(-n);
+      let neg = negative.slice(-n);
+      let points: Example2D[] = pos.concat(neg);
+      return points;
+    }
+
+    export function classifyPoroPermTrainData(numSamples: number, noise: number):
+    Example2D[] {
+
+      let positive = poroPermData.filter(x => x.label ==  1);
+      let negative = poroPermData.filter(x => x.label == -1);
+
+      let n = 42 * numSamples / (2 * 400);  // 42 neg samples, 85 pos
+      let pos = positive.slice(0, 2*n);
+      let neg = negative.slice(0, n);
+      let points: Example2D[] = pos.concat(neg);
+      return points;
+    }
+
+export function classifyPoroPermTestData(numSamples: number, noise: number):
+    Example2D[] {
+
+      let positive = poroPermData.filter(x => x.label ==  1);
+      let negative = poroPermData.filter(x => x.label == -1);
+
+      let n = 42 * numSamples / (2 * 400);  // 42 neg samples, 85 pos
+      let pos = positive.slice(-2*n);
       let neg = negative.slice(-n);
       let points: Example2D[] = pos.concat(neg);
       return points;
