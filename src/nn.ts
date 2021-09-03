@@ -141,6 +141,16 @@ export class Activations {
       return output * (1 - output);
     }
   };
+  public static SWISH: ActivationFunction = {
+    output: x => {
+      let output = Activations.SIGMOID.output(x);
+      return x * output;
+    },
+    der: x => {
+      let output = Activations.SWISH.output(x);
+      return output * (1 - output);
+    }
+  };
   public static LINEAR: ActivationFunction = {
     output: x => x,
     der: x => 1
