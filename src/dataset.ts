@@ -18,6 +18,7 @@ import make_moons from './moons';
 import sandShaleData from '../data/sand-shale.json';
 import porosityData from '../data/porosity.json';
 import poroPermData from '../data/poro-perm-sands.json';
+import dtsData from '../data/dts.json';
 
 /**
  * A two dimensional example: x and y coordinates with the label.
@@ -87,6 +88,20 @@ export function regressPorosityTestData(numSamples: number, noise: number):
   Example2D[] {
     let n = 85 * numSamples / 400;
     let points: Example2D[] = porosityData.slice(-n);
+    return points;
+}
+
+export function regressDtsTrainData(numSamples: number, noise: number):
+  Example2D[] {
+    let n = numSamples / 2;
+    let points: Example2D[] = dtsData.slice(0, n);
+    return points;
+}
+
+export function regressDtsTestData(numSamples: number, noise: number):
+  Example2D[] {
+    let n = numSamples / 2;
+    let points: Example2D[] = dtsData.slice(-n);
     return points;
 }
 

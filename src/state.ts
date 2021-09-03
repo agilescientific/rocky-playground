@@ -76,6 +76,7 @@ export let datasets: {[key: string]: DatasetGenerator} = {
   "reg-plane": new DatasetGenerator(dataset.regressPlane),
   "reg-gauss": new DatasetGenerator(dataset.regressGaussian),
   "reg-porosity": new DatasetGenerator(dataset.regressPorosityTrainData, dataset.regressPorosityTestData),
+  "reg-dts": new DatasetGenerator(dataset.regressDtsTrainData, dataset.regressDtsTestData),
 };
 
 export function getKeyFromValue(obj: any, value: any): string {
