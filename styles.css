@@ -264,6 +264,10 @@ header h1 .optional {
   width: 140px;
 }
 
+#play-pause-button {
+  background-color: #00dc25;
+}
+
 #play-pause-button .material-icons {
   color: white;
   font-size: 36px;
@@ -327,7 +331,7 @@ header h1 .optional {
 }
 
 #top-controls .control select:focus {
-  border-bottom-color: #183D4E;
+  border-bottom-color: #184e2f;
 }
 
 #top-controls .control .select::after {
