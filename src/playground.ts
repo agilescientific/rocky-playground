@@ -1085,6 +1085,12 @@ function generateData(firstTime = false) {
 let firstInteraction = true;
 let parametersChanged = false;
 
+// I got rid of Google Analytics so we need this.
+// It does nothing with calls to ga() basically.
+var ga = function(...args: any[]) {
+  console.log(args);
+};
+
 function userHasInteracted() {
   if (!firstInteraction) {
     return;
