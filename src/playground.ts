@@ -172,6 +172,8 @@ let lossTest = 0;
 let player = new Player();
 let lineChart = new AppendingLineChart(d3.select("#linechart"),
     ["#777", "black"]);
+let customLoaded = false;
+let customDataset = null;
 
 function makeGUI() {
   d3.select("#reset-button").on("click", () => {
@@ -222,6 +224,13 @@ function makeGUI() {
   // Select the dataset according to the current state.
   d3.select(`canvas[data-dataset=${datasetKey}]`)
     .classed("selected", true);
+
+  let cdataThumbnail = d3.select(`canvas[data-dataset=custom]`);
+  cdataThumbnail.on("click", function() {
+    if(customLoaded){
+      loadAndRenderCustomData(customDataset);
+    }
+  });
 
   let regDataThumbnails = d3.selectAll("canvas[data-regDataset]");
   regDataThumbnails.on("click", function() {
@@ -988,7 +997,7 @@ function initTutorial() {
   });
 }
 
-function drawDatasetThumbnails() {
+function drawDatasetThumbnails(custom=null) {
   function renderThumbnail(canvas, dataGenerator) {
     let w = 100;
     let h = 100;
@@ -1002,6 +1011,25 @@ function drawDatasetThumbnails() {
     });
     d3.select(canvas.parentNode).style("display", null);
   }
+  function renderPoints(canvas, data) {
+    let w = 100;
+    let h = 100;
+    canvas.setAttribute("width", w);
+    canvas.setAttribute("height", h);
+    let context = canvas.getContext("2d");
+    data.forEach(function(d) {
+      context.fillStyle = colorScale(d.label);
+      context.fillRect(w * (d.x + 6) / 12, h * (-d.y + 6) / 12, 4, 4);
+    });
+    d3.select(canvas.parentNode).style("display", null);
+  }
+
+  if(custom){
+    let canvas: any =
+            document.querySelector(`canvas[data-dataset=custom]`);
+    console.log(canvas)
+    renderPoints(canvas, custom);
+  } else {
   d3.selectAll(".dataset").style("display", "none");
 
   if (state.problem === Problem.CLASSIFICATION) {
@@ -1020,6 +1048,8 @@ function drawDatasetThumbnails() {
       renderThumbnail(canvas, dataGenerator);
     }
   }
+}
+
 }
 
 function hideControls() {
@@ -1062,7 +1092,7 @@ function hideControls() {
     .attr("href", window.location.href);
 }
 
-function generateData(firstTime = false) {
+function generateData(firstTime = false, custom=null) {
   if (!firstTime) {
     // Change the seed.
     state.seed = Math.random().toFixed(5);
@@ -1078,6 +1108,17 @@ function generateData(firstTime = false) {
   let numTestSamples = numSamples * (100 - state.percTrainData) / 100;
   trainData = generator.trainGenerator(numTrainSamples, state.noise / 100);
   testData = generator.testGenerator(numTestSamples, state.noise / 100);
+
+  if(custom!=null){
+    let data = custom;
+    // Shuffle the data in-place.
+    shuffle(data);
+    // Split into train and test data.
+    let splitIndex = Math.floor(data.length * state.percTrainData / 100);
+    trainData = data.slice(0, splitIndex);
+    testData = data.slice(splitIndex);
+  }
+  
   heatMap.updatePoints(trainData);
   heatMap.updateTestPoints(state.showTestData ? testData : []);
 }
@@ -1113,6 +1154,50 @@ function simulationStarted() {
   });
   parametersChanged = false;
 }
+
+function loadAndRenderCustomData(json) {
+  drawDatasetThumbnails(json);
+  generateData(true, json);
+  let dataThumbnails = d3.selectAll("canvas[data-dataset]");
+  let regdataThumbnails = d3.selectAll("canvas[data-regdataset]");
+  dataThumbnails.classed("selected", false);
+  regdataThumbnails.classed("selected", false);
+  d3.select("canvas[data-dataset=custom]").classed("selected", true);
+  reset()
+}
+
+function handleFileSelect(evt) {
+  var files = evt.target.files; // FileList object
+
+  // files is a FileList of File objects. List some properties.
+  var output = [];
+  for (var i = 0, f; f = files[i]; i++) {
+    output.push('<strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
+                f.size, ' bytes, last modified: ',
+                f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a'
+                );
+    var reader = new FileReader();
+
+    // Closure to capture the file information.
+    reader.onload = (function (theFile) {
+      return function (e) {
+        try {
+          customDataset = JSON.parse(e.target.result);
+          customLoaded = true;
+          loadAndRenderCustomData(customDataset);
+        } catch (ex) {
+          console.log('ex when trying to parse json = ' + ex);
+        }
+      }
+    })(f);
+    reader.readAsText(f);
+  }
+  
+  document.getElementById('list').innerHTML = output.join('');
+
+}
+
+document.getElementById('files').addEventListener('change', handleFileSelect, false);
 
 drawDatasetThumbnails();
 initTutorial();
