@@ -152,11 +152,27 @@ limitations under the License.
       <h4>
         <span>Data</span>
       </h4>
+
+      <!-- File uploader -->
       <div class="ui-dataset">
-        <p>Which dataset do you want to use?</p>
+        <p>Upload your own JSON:</p>
+        <div class="dataset-list">
+          <div class="dataset-custom" title="Custom">
+            <canvas class="data-thumbnail" data-dataset="custom"></canvas>
+          </div>
+
+          <input type="file" id="files" name="files[]" />
+          <label class="mdl-button mdl-js-button" for="files" style="float:right">
+            <i class="material-icons">file_upload</i>
+          </label>
+        </div>
+      </div>
+
+      <div class="ui-dataset">
+        <p>Or use synthetic data:</p>
         <div class="dataset-list">
 
-          <!-- Classification -->
+          <!-- Synthetic data -->
           <div class="dataset" title="Linear">
             <canvas class="data-thumbnail" data-dataset="linear"></canvas>
           </div>
@@ -178,7 +194,18 @@ limitations under the License.
           <div class="dataset" title="Moons">
             <canvas class="data-thumbnail" data-dataset="moons"></canvas>
           </div>
-          <div class="dataset" title="Real data: sand vs shale">
+          <div class="dataset" title="Plane">
+            <canvas class="data-thumbnail" data-regDataset="reg-plane"></canvas>
+          </div>
+          <div class="dataset" title="Multi gaussian">
+            <canvas class="data-thumbnail" data-regDataset="reg-gauss"></canvas>
+          </div>
+        </div>
+
+          <!-- Real data -->
+          <p>Or try real-world data:</p>
+          <div class="dataset-list">
+            <div class="dataset" title="Real data: sand vs shale">
             <canvas class="data-thumbnail" data-dataset="rocks"></canvas>
           </div>
           <div class="dataset" title="Real data: poro-perm">
@@ -186,14 +213,6 @@ limitations under the License.
           </div>
           <div class="dataset" title="Real data: poro-perm">
             <canvas class="data-thumbnail" data-dataset="poroperm"></canvas>
-          </div>
-
-          <!-- Regression -->
-          <div class="dataset" title="Plane">
-            <canvas class="data-thumbnail" data-regDataset="reg-plane"></canvas>
-          </div>
-          <div class="dataset" title="Multi gaussian">
-            <canvas class="data-thumbnail" data-regDataset="reg-gauss"></canvas>
           </div>
           <div class="dataset" title="Porosity">
             <canvas class="data-thumbnail" data-regDataset="reg-porosity"></canvas>
@@ -204,33 +223,21 @@ limitations under the License.
 
         </div>
       </div>
-        <div class="ui-dataset">
-          <h4>
-            <span>CUSTOM</span>
-          </h4>
-          <div class="dataset-list">
-            <div class="dataset" title="Custom">
-              <canvas class="data-thumbnail" data-dataset="custom"></canvas>
-            </div>
-          </div>
-          <input type="file" id="files" name="files[]" multiple />
-          <output id="list"></output>
-      </div>
       <div>
         <div class="ui-percTrainData">
-          <label for="percTrainData">Ratio of training to test data:&nbsp;&nbsp;<span class="value">XX</span>%</label>
+          <label for="percTrainData">Train:test ratio:&nbsp;<span class="value">XX</span>%</label>
           <p class="slider">
             <input class="mdl-slider mdl-js-slider" type="range" id="percTrainData" min="10" max="90" step="10">
           </p>
         </div>
         <div class="ui-noise">
-          <label for="noise">Noise:&nbsp;&nbsp;<span class="value">XX</span></label>
+          <label for="noise">Noise:&nbsp;<span class="value">XX</span></label>
           <p class="slider">
             <input class="mdl-slider mdl-js-slider" type="range" id="noise" min="0" max="50" step="5">
           </p>
         </div>
         <div class="ui-batchSize">
-          <label for="batchSize">Batch size:&nbsp;&nbsp;<span class="value">XX</span></label>
+          <label for="batchSize">Batch size:&nbsp;<span class="value">XX</span></label>
           <p class="slider">
             <input class="mdl-slider mdl-js-slider" type="range" id="batchSize" min="1" max="30" step="1">
           </p>

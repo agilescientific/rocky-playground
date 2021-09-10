@@ -13,6 +13,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
+#files { display: none }
+
 /* General Type */
 
 body {
@@ -494,7 +496,7 @@ g.column rect {
 }
 
 .data.column {
-  width: 10%;
+  width: 12%;
 }
 
 .data.column .dataset-list {
@@ -507,11 +509,19 @@ g.column rect {
   float: left;
   width: 34px;
   height: 34px;
-  margin: 0 14px 14px 0;
+  margin: 0 12px 12px 0;
 }
 
-.data.column .dataset:nth-of-type(2n) {
+.data.column .dataset:nth-of-type(3n) {
   margin-right: 0;
+}
+
+.data.column .dataset-custom {
+  position: relative;
+  float: left;
+  width: 68px;
+  height: 68px;
+  margin: 0 12px 12px 0;
 }
 
 .data.column .data-thumbnail {
