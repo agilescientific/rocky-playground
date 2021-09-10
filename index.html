@@ -395,11 +395,13 @@ limitations under the License.
       <p><strong>Multi-Gaussian</strong> – multiple clusters with Gaussian spatial distributions.</p>
       <p><strong>Real data: Porosity</strong> – This is a small dataset representing a porosity map. It is from Geoff Bohling at the Kansas Geological Survey, but we can no longer find the data online.</p>
       <p><strong>Real data: DTS from DTP and RHOB</strong> – Predicting S-wave sonic wireline measurements from compressional velocity (DTP) (X<sub>1</sub>) and bulk density (X<sub>2</sub>). Data has been downsampled from well R-39 offshore Nova Scotia, available from the <a href="https://www.cnsopb.ns.ca/">CNSOPB</a>.</p>
-      <div>
-      
-      </div>
-
     </div>
+
+    <div class="l--body">
+      <h2>How do I make my own datasets?</h2>
+      <p>You will need to define a machine learning task with 2 features and one target. About 400 records is ideal — split 50% positive and 50% negative classes for a classification problem. Scale the features using a Z-score standardization, and multiply the result by 2. The target should be -1 and 1 for classification, or in the range [-1, 1] for regression. <a href="https://github.com/agile-geoscience/rocky-playground/blob/master/notebooks/Data_for_Playground.ipynb">Here's an example of how to prepare data.</a></p>
+    </div>
+
 
     <div class="l--body">
       <h2>Credits</h2>
