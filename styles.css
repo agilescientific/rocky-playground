@@ -516,6 +516,31 @@ g.column rect {
   margin-right: 0;
 }
 
+/* For the tutorial explanations. */
+.tutorial .dataset {
+  float: left;
+  width: 48px;
+  height: 48px;
+  margin: 4px 12px 12px 0;
+}
+
+.tutorial .data-thumbnail {
+  width: 100%;
+  height: 100%;
+  border: 2px solid rgba(0, 0, 0, 0.4);
+  border-radius: 3px;
+}
+
+.tutorial .tutorial-item {
+  margin-bottom: 24px;
+  clear: both;
+}
+
+.tutorial .tutorial-text {
+  margin-left: 60px;
+}
+/* end tutorial stuff */
+
 .data.column .dataset-custom {
   position: relative;
   float: left;

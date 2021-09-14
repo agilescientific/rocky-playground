@@ -1032,6 +1032,21 @@ function drawDatasetThumbnails(custom=null) {
   } else {
   d3.selectAll(".dataset").style("display", "none");
 
+// Draw tutorial dataset thumbnails.
+for (let dataset in datasets) {
+  let canvasTuto: any =
+      document.querySelector(`canvas[data-dataset-tuto=${dataset}]`);
+  let dataGenTuto = datasets[dataset].trainGenerator;
+  renderThumbnail(canvasTuto, dataGenTuto);
+}
+for (let regDataset in regDatasets) {
+  let canvasTuto: any =
+      document.querySelector(`canvas[data-regDataset-tuto=${regDataset}]`);
+  let dataGenTuto = regDatasets[regDataset].trainGenerator;
+  renderThumbnail(canvasTuto, dataGenTuto);
+}
+
+// Draw data column thumbnails.
   if (state.problem === Problem.CLASSIFICATION) {
     for (let dataset in datasets) {
       let canvas: any =

@@ -378,36 +378,118 @@ limitations under the License.
     </div>
 
     <div class="l--body">
-      <h2>More about the datsets</h2>
+      <h2>More about the datasets</h2>
       <p>The data points are scaled and dimensionless, so it might be hard to tell what they represent. So here's a brief description.</p>
       <p><strong>CLASSIFICATION</strong></p>
-      <p><strong>Linear</strong> – A data set that is linearly seperable along the X<sub>1</sub> dimension. So you'll only need one feature and one neuron to learn this relationship.</sub></p>
-      <p><strong>Diagonal</strong> – The two classes are clustered along a diagonal, so you'll need more than one feature to build an adequate classifier.</p>
-      <p><strong>Exclusive Or (XOR)</strong> – This is a classic problem in neural network research. It is the simplest non-linearly separable classification task that exists.</p>
-      <p><strong>Gaussian</strong> – A classification problem with clusters (or blobs) each represented by a Gaussian distribution. Change the noise level to broaden or narrow the distribution.</p>
-      <p><strong>Circle</strong> – A large circle of one class containing a smaller circle. A simple toy dataset to visualize clustering and classification algorithms.</p>
-      <p><strong>Spiral</strong> – Two classes spiraling around each other.</p>
-      <p><strong>Moons</strong> – Two interleaving moons, or croissants if you prefer.</p>
-      <p><strong>Real data: sand vs shale</strong> – This is P-wave velocity (X<sub>1</sub>) and bulk density (X<sub>2</sub>) values for a selection of sandstones (cyan) and shales (dark blue) from the <a href="https://subsurfwiki.org/wiki/Rock_Property_Catalog">Rock Property Catalog</a>. A standard scalar has been applied to the features, then multipled by 2.</a></p>
-      <p><strong>Real data: poro-perm</strong> – Porosity (X<sub>1</sub>) and the base-10 logarithm of permeability (X<sub>2</sub>) of Oligocene sandstones. Medium-to-coarse grained sands are in cyan, fine-to-medium grained sands are in dark blue. Dataset is modified from Taylor et al. 1993, dataset number 64 in the <a href="https://pubs.usgs.gov/of/2003/ofr-03-420/ofr-03-420.html">USGS report 03-420</a> of Porosity and Permeability from Core Plugs in Siliclastic Rocks.</p>
-      <p><strong>REGRESSION</strong></p>
-      <p><strong>Plane</strong> – Data coordinates sampling a dipping planar surface.</p>
-      <p><strong>Multi-Gaussian</strong> – multiple clusters with Gaussian spatial distributions.</p>
-      <p><strong>Real data: Porosity</strong> – This is a small dataset representing a porosity map. It is from Geoff Bohling at the Kansas Geological Survey, but we can no longer find the data online.</p>
-      <p><strong>Real data: DTS from DTP and RHOB</strong> – Predicting S-wave sonic wireline measurements from compressional velocity (DTP) (X<sub>1</sub>) and bulk density (X<sub>2</sub>). Data has been downsampled from well R-39 offshore Nova Scotia, available from the <a href="https://www.cnsopb.ns.ca/">CNSOPB</a>.</p>
+
+      <div class="tutorial">
+
+        <div class="tutorial-item">
+        <div class="dataset">
+          <canvas class="data-thumbnail" data-dataset-tuto="linear"></canvas>
+        </div>
+        <p class="tutorial-text"><strong>Linear</strong> – A data set that is linearly seperable along the X<sub>1</sub> dimension. You'll only need one feature and one neuron to learn this relationship.</sub></p>
+      </div>
+
+      <div class="tutorial-item">
+      <div class="dataset">
+          <canvas class="data-thumbnail" data-dataset-tuto="diagonal"></canvas>
+        </div>
+        <p class="tutorial-text"><strong>Diagonal</strong> – The two classes are clustered along a diagonal, so you'll need more than one feature to build an adequate classifier. Note that the training data does not span the domain of the data, whereas the validation data does — so the variance is always high on this dataset.</p>
+      </div>
+
+      <div class="tutorial-item">
+        <div class="dataset">
+          <canvas class="data-thumbnail" data-dataset-tuto="xor"></canvas>
+        </div>
+        <p class="tutorial-text"><strong>Exclusive Or (XOR)</strong> – This is a classic problem in neural network research. It is the simplest non-linearly separable classification task that exists.</p>
+      </div>
+
+      <div class="tutorial-item">
+        <div class="dataset">
+          <canvas class="data-thumbnail" data-dataset-tuto="gauss"></canvas>
+        </div>
+        <p class="tutorial-text"><strong>Gaussian</strong> – A classification problem with clusters (or blobs) each represented by a Gaussian distribution. Change the noise level to broaden or narrow the distribution.</p>
+      </div>
+
+      <div class="tutorial-item">
+      <div class="dataset">
+          <canvas class="data-thumbnail" data-dataset-tuto="circle"></canvas>
+        </div>
+        <p class="tutorial-text"><strong>Circle</strong> – The instances of one class encircle the instances of the other.</p>
+      </div>
+
+      <div class="tutorial-item">
+        <div class="dataset">
+          <canvas class="data-thumbnail" data-dataset-tuto="spiral"></canvas>
+        </div>
+        <p class="tutorial-text"><strong>Spiral</strong> – Two classes spiraling around each other.</p>
+      </div>
+
+      <div class="tutorial-item">
+        <div class="dataset">
+          <canvas class="data-thumbnail" data-dataset-tuto="moons"></canvas>
+        </div>
+        <p class="tutorial-text"><strong>Moons</strong> – Two interleaving moons, or croissants if you prefer. Inspired by the <code>sklearn</code> dataset.</code></p>
+      </div>
+
+      <div class="tutorial-item">
+        <div class="dataset">
+          <canvas class="data-thumbnail" data-dataset-tuto="rocks"></canvas>
+        </div>
+        <p class="tutorial-text"><strong>Real data: sand vs shale</strong> – This is P-wave velocity (X<sub>1</sub>) and bulk density (X<sub>2</sub>) values for a selection of sandstones (cyan) and shales (dark blue) from the <a href="https://subsurfwiki.org/wiki/Rock_Property_Catalog">Rock Property Catalog</a>. A standard scalar has been applied to the features, then multipled by 2.</a></p>
+      </div>
+
+      <div class="tutorial-item">
+        <div class="dataset">
+          <canvas class="data-thumbnail" data-dataset-tuto="poroperm"></canvas>
+        </div>
+        <p class="tutorial-text"><strong>Real data: poro-perm</strong> – Porosity (X<sub>1</sub>) and the base-10 logarithm of permeability (X<sub>2</sub>) of Oligocene sandstones. Medium-to-coarse grained sands are in cyan, fine-to-medium grained sands are in dark blue. Dataset is modified from Taylor et al. 1993, dataset number 64 in the <a href="https://pubs.usgs.gov/of/2003/ofr-03-420/ofr-03-420.html">USGS report 03-420</a> of Porosity and Permeability from Core Plugs in Siliclastic Rocks.</p>
+      </div>
+
+        <p><strong>REGRESSION</strong></p>
+      <div class="tutorial-item">
+      <div class="dataset">
+          <canvas class="data-thumbnail" data-regDataset-tuto="reg-plane"></canvas>
+        </div>
+        <p class="tutorial-text"><strong>Plane</strong> – Data coordinates sampling a dipping planar surface.</p>
+      </div>
+
+      <div class="tutorial-item">
+        <div class="dataset">
+          <canvas class="data-thumbnail" data-regDataset-tuto="reg-gauss"></canvas>
+        </div>
+        <p class="tutorial-text"><strong>Multi-Gaussian</strong> – multiple clusters with Gaussian spatial distributions.</p>
+      </div>
+
+      <div class="tutorial-item">
+        <div class="dataset">
+          <canvas class="data-thumbnail" data-regDataset-tuto="reg-porosity"></canvas>
+        </div>
+        <p class="tutorial-text"><strong>Real data: Porosity</strong> – This is a small dataset representing a porosity map. It is from Geoff Bohling at the Kansas Geological Survey, but we can no longer find the data online.</p>
+      </div>
+
+      <div class="tutorial-item">
+        <div class="dataset">
+          <canvas class="data-thumbnail" data-regDataset-tuto="reg-dts"></canvas>
+        </div>
+        <p class="tutorial-text"><strong>Real data: DTS from DTP and RHOB</strong> – Predicting S-wave sonic wireline measurements from compressional velocity (DTP) (X<sub>1</sub>) and bulk density (X<sub>2</sub>). Data has been downsampled from well R-39 offshore Nova Scotia, available from the <a href="https://www.cnsopb.ns.ca/">CNSOPB</a>.</p>
+      </div>
     </div>
+    </div> <!-- end of tutorial -->
 
     <div class="l--body">
       <h2>How do I make my own datasets?</h2>
       <p>You will need to define a machine learning task with 2 features and one target. About 400 records is ideal — split 50% positive and 50% negative classes for a classification problem. Scale the features using a Z-score standardization, and multiply the result by 2. The target should be -1 and 1 for classification, or in the range [-1, 1] for regression. <a href="https://github.com/agile-geoscience/rocky-playground/blob/master/notebooks/Data_for_Playground.ipynb">Here's an example of how to prepare data.</a></p>
+      <p>Once you have a JSON file, you can upload it using the button with the <i class="material-icons">file_upload</i> icon (top left).</p>
     </div>
 
 
     <div class="l--body">
       <h2>Credits</h2>
+      <p>This fork of <a href="https://playground.tensorflow.org/">the TensorFlow Playground</a> was adapted by Matt Hall and Evan Bianco at <a href="https://agilescientific.com/">Agile Scientific</a>. It's one of Agile's <a href="https://geosci.ai">geosci.ai</a> experiments.</p>
       <p>
-        This was created by Daniel Smilkov and Shan Carter.
-        This is a continuation of many people’s previous work — most notably Andrej Karpathy’s <a href="http://cs.stanford.edu/people/karpathy/convnetjs/demo/classify2d.html">convnet.js demo</a>
+        The original app was was created by Daniel Smilkov and Shan Carter. It was a continuation of many people’s previous work — most notably Andrej Karpathy’s <a href="http://cs.stanford.edu/people/karpathy/convnetjs/demo/classify2d.html">convnet.js demo</a>
         and Chris Olah’s <a href="http://colah.github.io/posts/2014-03-NN-Manifolds-Topology/">articles</a> about neural networks.
         Many thanks also to D. Sculley for help with the original idea and to Fernanda Viégas and Martin Wattenberg and the rest of the
         <a href="https://research.google.com/bigpicture/">Big Picture</a> and <a href="https://research.google.com/teams/brain/">Google Brain</a> teams for feedback and guidance.
