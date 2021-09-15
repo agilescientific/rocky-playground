@@ -12,6 +12,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
+import Prism from 'prismjs';
+import 'prismjs/components/prism-python';
 
 /**
  * A node in a neural network. Each node has a state
@@ -67,6 +69,35 @@ export class Node {
     this.output = this.activation.output(this.totalInput);
     return this.output;
   }
+
+
+  compileToPy(): string {
+    // Stores total input into the node.
+    let py = this.bias.toPrecision(2) + "";
+    for (let j = 0; j < this.inputLinks.length; j++) {
+      let link = this.inputLinks[j];
+      py += ` + (${link.weight.toPrecision(2)} * ${link.source.compileToPyName()})`;
+    }
+    return this.activation.compileToPy(py);
+  }
+
+  compileToPyName(): string {
+    if (this.id == "x") {
+      return "X1";
+    } else if (this.id == "y") {
+      return "X2";
+    } else if (this.id == "xTimesY") {
+      return "X1X2";
+    } else if (this.id == "xSquared") {
+      return "X1_squared";
+    } else if (this.id == "ySquared") {
+      return "X2_squared";
+    } else if (this.id == "y") {
+      return "X2";
+    } else {
+      return "a" + this.id;
+    }
+  }
 }
 
 /**
@@ -81,6 +112,7 @@ export interface ErrorFunction {
 export interface ActivationFunction {
   output: (input: number) => number;
   der: (input: number) => number;
+  compileToPy: (input: string) => string;
 }
 
 /** Function that computes a penalty cost for a given weight in the network. */
@@ -117,29 +149,34 @@ export class Activations {
     der: x => {
       let output = Activations.TANH.output(x);
       return 1 - output * output;
-    }
+    },
+    compileToPy: (input: string) => `math.tanh(${input})`
   };
   public static RELU: ActivationFunction = {
     output: x => Math.max(0, x),
-    der: x => x <= 0 ? 0 : 1
+    der: x => x <= 0 ? 0 : 1,
+    compileToPy: (input: string) => `max(0, ${input})`
   };
   public static LeakyRELU: ActivationFunction = {
     output: x => x <= 0 ? 0.1 * x : x,
-    der: x => x <= 0 ? 0.1 : 1
+    der: x => x <= 0 ? 0.1 : 1,
+    compileToPy: (input: string) => `max(0, ${input} * 0.1)`
   };
   public static ELU: ActivationFunction = {
     output: x => x <= 0 ? 0.1 * (Math.exp(x) - 1) : x,
     der: x => {
       let output = Activations.ELU.output(x);
       return output + 0.1;
-    }
+    },
+    compileToPy: (input: string) => `ELU(${input})`
   };
   public static SIGMOID: ActivationFunction = {
     output: x => 1 / (1 + Math.exp(-x)),
     der: x => {
       let output = Activations.SIGMOID.output(x);
       return output * (1 - output);
-    }
+    },
+    compileToPy: (input: string) => `1 / (1 + math.exp(-${input}))`
   };
   public static SWISH: ActivationFunction = {
     output: x => {
@@ -149,11 +186,13 @@ export class Activations {
     der: x => {
       let output = Activations.SWISH.output(x);
       return output * (1 - output);
-    }
+    },
+    compileToPy: (input: string) => `${input} * SIGMOID(${input})`
   };
   public static LINEAR: ActivationFunction = {
     output: x => x,
-    der: x => 1
+    der: x => 1,
+    compileToPy: (input: string) => `${input}`
   };
 }
 
@@ -414,3 +453,23 @@ export function forEachNode(network: Node[][], ignoreInputs: boolean,
 export function getOutputNode(network: Node[][]) {
   return network[network.length - 1][0];
 }
+
+// Originally authored by https://github.com/jameshfisher
+// As part of dcato98's playground code
+// Modified by Matt
+// Returns a highlighted HTML string
+export function compileNetworkToPy(network: Node[][]): string {
+  const inputLayer = network[0];
+  let py = `def forward(${inputLayer.map(node => node.compileToPyName()).join(", ")})\n`;
+  py += `    """Compute a forward pass of the network."""\n`;
+  for (let layerIdx = 1; layerIdx < network.length; layerIdx++) {
+    let currentLayer = network[layerIdx];
+    for (let i = 0; i < currentLayer.length; i++) {
+      let node = currentLayer[i];
+      py += `    ${node.compileToPyName()} = ${node.compileToPy()}\n`;
+    }
+  }
+  py += `    return ${network[network.length - 1][0].compileToPyName()}\n`;
+  const html = Prism.highlight(py, Prism.languages.python, 'python');
+  return html;
+} 

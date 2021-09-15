@@ -558,6 +558,14 @@ g.column rect {
   border-radius: 3px;
 }
 
+.card {
+  width: 100%;
+  padding: 6px 24px 12px 24px;  /* top, right, bottom, left */
+  background:rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  margin-bottom: 48px;
+}
+
 /*.data.column .dataset:first-of-type {
   margin-top: 8px;
 }
