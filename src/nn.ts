@@ -177,7 +177,7 @@ export class Activations {
       let output = Activations.SIGMOID.output(x);
       return output * (1 - output);
     },
-    compileToPy: (input: string) => `1 / (1 + math.exp(-${input}))`
+    compileToPy: (input: string) => `1 / (1 + math.exp(-(${input})))`
   };
   public static SWISH: ActivationFunction = {
     output: x => {
@@ -461,7 +461,7 @@ export function getOutputNode(network: Node[][]) {
 // Returns a highlighted HTML string
 export function compileNetworkToPy(network: Node[][]): string {
   const inputLayer = network[0];
-  let py = `def forward(${inputLayer.map(node => node.compileToPyName()).join(", ")})\n`;
+  let py = `def forward(${inputLayer.map(node => node.compileToPyName()).join(", ")}):\n`;
   py += `    """Compute a forward pass of the network."""\n`;
   for (let layerIdx = 1; layerIdx < network.length; layerIdx++) {
     let currentLayer = network[layerIdx];
