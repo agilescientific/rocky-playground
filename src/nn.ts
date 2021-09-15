@@ -12,8 +12,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
-import Prism from 'prismjs';
-import 'prismjs/components/prism-python';
+
+// ROLLBACK HIGHLIGHTING
+// import Prism from 'prismjs';
+// import 'prismjs/components/prism-python';
 
 /**
  * A node in a neural network. Each node has a state
@@ -457,7 +459,7 @@ export function getOutputNode(network: Node[][]) {
 // Originally authored by https://github.com/jameshfisher
 // As part of dcato98's playground code
 // Modified by Matt
-// Returns a highlighted HTML string
+// Returns a highlighted HTML string  // BROKEN!
 export function compileNetworkToPy(network: Node[][]): string {
   const inputLayer = network[0];
   let py = `def forward(${inputLayer.map(node => node.compileToPyName()).join(", ")})\n`;
@@ -470,6 +472,6 @@ export function compileNetworkToPy(network: Node[][]): string {
     }
   }
   py += `    return ${network[network.length - 1][0].compileToPyName()}\n`;
-  const html = Prism.highlight(py, Prism.languages.python, 'python');
-  return html;
+  // const html = Prism.highlight(py, Prism.languages.python, 'python');
+  return py; // return HTML for the highlighted code.
 } 
