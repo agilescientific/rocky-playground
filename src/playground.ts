@@ -661,7 +661,6 @@ function drawNetwork(network: nn.Node[][]): void {
   d3.select(".column.features").style("height", height + "px");
 
   // Inject HTML of Python code.
-  console.log(nn.compileNetworkToPy(network))
   d3.select("#network-as-python").html(nn.compileNetworkToPy(network));
 }
 
@@ -1034,7 +1033,6 @@ function drawDatasetThumbnails(custom=null) {
   if(custom){
     let canvas: any =
             document.querySelector(`canvas[data-dataset=custom]`);
-    console.log(canvas)
     renderPoints(canvas, custom);
   } else {
   d3.selectAll(".dataset").style("display", "none");
