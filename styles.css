@@ -48,7 +48,7 @@ h3 {
 }
 
 p a {
-  color: #0D658C;
+  color: #000000;
 }
 
 /* Layout */
@@ -538,6 +538,8 @@ g.column rect {
 
 .tutorial .tutorial-text {
   margin-left: 60px;
+  font-size: 17px;
+
 }
 /* end tutorial stuff */
 
@@ -564,6 +566,11 @@ g.column rect {
   background:rgba(0, 0, 0, 0.1);
   border-radius: 6px;
   margin-bottom: 48px;
+}
+
+ul {
+  color: rgba(0, 0, 0, 0.7);
+  font-size: 17px;
 }
 
 /*.data.column .dataset:first-of-type {
@@ -896,12 +903,12 @@ article h2, article h3 {
   font-size: 22px;
   font-weight: 500;
   line-height: 1.45em;
-  color: rgba(0, 0, 0, 0.7);
+  color: rgb(50, 83, 150);
 }
 
 article h3 {
-  margin: 40px 0 20px 0;
-  font-size: 18px;
+  margin: 30px 0 20px 0;
+  font-size: 19px;
 }
 
 article :first-child h2 {
@@ -932,6 +939,10 @@ footer svg {
   width: 110px;
   height: 18px;
   fill: #aaa;
+}
+
+footer img {
+  margin-bottom: 20px;
 }
 
 footer .links {

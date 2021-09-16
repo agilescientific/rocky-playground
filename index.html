@@ -393,7 +393,7 @@ limitations under the License.
     <div class="l--body">
       <h2>More about the datasets</h2>
       <p>The data points are scaled and dimensionless, so it might be hard to tell what they represent. So here's a brief description.</p>
-      <p><strong>CLASSIFICATION</strong></p>
+      <h3>Classification datasets</h3>
 
       <div class="tutorial">
 
@@ -460,7 +460,7 @@ limitations under the License.
         <p class="tutorial-text"><strong>Real data: poro-perm</strong> – Porosity (X<sub>1</sub>) and the base-10 logarithm of permeability (X<sub>2</sub>) of Oligocene sandstones. Medium-to-coarse grained sands are in cyan, fine-to-medium grained sands are in dark blue. Dataset is modified from Taylor et al. 1993, dataset number 64 in the <a href="https://pubs.usgs.gov/of/2003/ofr-03-420/ofr-03-420.html">USGS report 03-420</a> of Porosity and Permeability from Core Plugs in Siliclastic Rocks.</p>
       </div>
 
-        <p><strong>REGRESSION</strong></p>
+        <h3>Regression datasets</h3>
       <div class="tutorial-item">
       <div class="dataset">
           <canvas class="data-thumbnail" data-regDataset-tuto="reg-plane"></canvas>
@@ -501,12 +501,22 @@ limitations under the License.
     <div class="l--body">
       <h2>Credits</h2>
       <p>This fork of <a href="https://playground.tensorflow.org/">the TensorFlow Playground</a> was adapted by Matt Hall and Evan Bianco at <a href="https://agilescientific.com/">Agile Scientific</a>. It's one of Agile's <a href="https://geosci.ai">geosci.ai</a> experiments.</p>
+      <p>Here's some of what we've added or changed:</p>
+      <ul>
+        <li>Added several new real and synthetic datasets, with descriptions.</li>
+        <li>More activation functions to try, including ELU and Swish.</li>
+        <li>Change the regularization during training and watch the weights.</li>
+        <li>Upload your own datasets!</li>
+        <li>See the expression of the network in Python code.</li>
+        <li>Lots of small bug fixes and cosmetic changes.</li>
+      </ul>
       <p>
         The original app was was created by Daniel Smilkov and Shan Carter. It was a continuation of many people’s previous work — most notably Andrej Karpathy’s <a href="http://cs.stanford.edu/people/karpathy/convnetjs/demo/classify2d.html">convnet.js demo</a>
         and Chris Olah’s <a href="http://colah.github.io/posts/2014-03-NN-Manifolds-Topology/">articles</a> about neural networks.
         Many thanks also to D. Sculley for help with the original idea and to Fernanda Viégas and Martin Wattenberg and the rest of the
         <a href="https://research.google.com/bigpicture/">Big Picture</a> and <a href="https://research.google.com/teams/brain/">Google Brain</a> teams for feedback and guidance.
       </p>
+      <p>Several of our changes were inspired or pioneered by <a href="https://dcato98.github.io/playground">David Cato's</a> fork of the project, especially the Swish function, the code expression, and the on-the-fly regularization tweaking. Kudos and thanks to him and his collaborators!</p>
     </div>
   </article>
 
@@ -514,7 +524,7 @@ limitations under the License.
   <footer>
     <div class="l--body">
       <a href="https://www.agilescientific.com/" class="logo">
-        <img width=120 src="https://rocky-playground.s3.amazonaws.com/Agile_logo_all_white.png" alt="Agile Scientific">
+        <img width=120 src="https://rocky-playground.s3.amazonaws.com/Agile_logo_wo_web_rect.png" alt="Agile Scientific">
       </a>
     </div>
   </footer>
