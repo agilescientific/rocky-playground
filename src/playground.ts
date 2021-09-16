@@ -214,7 +214,13 @@ function makeGUI() {
     }
     state.dataset =  newDataset;
     dataThumbnails.classed("selected", false);
+    d3.select("canvas[data-dataset=custom]").classed("selected", false);
     d3.select(this).classed("selected", true);
+
+    // Re-enable noise slider.
+    d3.select("#noise").property("disabled", false);
+    d3.select("label[for='noise']").property("disabled", false);
+  
     generateData();
     parametersChanged = true;
     reset();
@@ -229,7 +235,7 @@ function makeGUI() {
   cdataThumbnail.on("click", function() {
     if(customLoaded){
       loadAndRenderCustomData(customDataset);
-    }
+      }
   });
 
   let regDataThumbnails = d3.selectAll("canvas[data-regDataset]");
@@ -240,7 +246,13 @@ function makeGUI() {
     }
     state.regDataset =  newDataset;
     regDataThumbnails.classed("selected", false);
+    d3.select("canvas[data-dataset=custom]").classed("selected", false);
     d3.select(this).classed("selected", true);
+    
+    // Re-enable noise slider.
+    d3.select("#noise").property("disabled", false);
+    d3.select("label[for='noise']").property("disabled", false);
+
     generateData();
     parametersChanged = true;
     reset();
@@ -292,7 +304,11 @@ function makeGUI() {
   let percTrain = d3.select("#percTrainData").on("input", function() {
     state.percTrainData = this.value;
     d3.select("label[for='percTrainData'] .value").text(this.value);
-    generateData();
+    if (customLoaded) {
+      loadAndRenderCustomData(customDataset);
+    } else {
+      generateData();
+    }
     parametersChanged = true;
     reset();
   });
@@ -1114,6 +1130,18 @@ function hideControls() {
     .attr("href", window.location.href);
 }
 
+function meanStdDev(array) {
+  let mean = d3.mean(array);
+  let stdDev = d3.deviation(array);
+  return [mean, stdDev];
+}
+
+function minMax(array) {
+  let min = d3.min(array);
+  let max = d3.max(array);
+  return [min, max];
+}
+
 function generateData(firstTime = false, custom=null) {
   if (!firstTime) {
     // Change the seed.
@@ -1133,12 +1161,31 @@ function generateData(firstTime = false, custom=null) {
 
   if(custom!=null){
     let data = custom;
+
     // Shuffle the data in-place.
     shuffle(data);
-    // Split into train and test data.
+
+    // Split out train data.
     let splitIndex = Math.floor(data.length * state.percTrainData / 100);
     trainData = data.slice(0, splitIndex);
+
+    // Scale it.
+    // TODO: Multiplied by 2 because data space is -6, 6.
+    let [mx, sx] = meanStdDev(trainData.map(d => d.x));
+    let [my, sy] = meanStdDev(trainData.map(d => d.y));
+    let [mi, ma] = minMax(trainData.map(d => d.label));
+    trainData.forEach(d => {d.x = 2 * (d.x - mx) / sx;  // TODO
+                            d.y = 2 * (d.y - my) / sy;
+                            d.label = 2 * (d.label - mi) / (ma - mi) - 1;
+                           });
+
+    // Split out and scale test data.
+    // TODO: Multiplied by 2 because data space is -6, 6.
     testData = data.slice(splitIndex);
+    testData.forEach(d => {d.x = 2 * (d.x - mx) / sx;  // TODO
+                           d.y = 2 * (d.y - my) / sy;
+                           d.label = 2 * (d.label - mi) / (ma - mi) - 1;
+                          });
   }
   
   heatMap.updatePoints(trainData);
@@ -1178,14 +1225,19 @@ function simulationStarted() {
 }
 
 function loadAndRenderCustomData(json) {
-  drawDatasetThumbnails(json);
   generateData(true, json);
+  drawDatasetThumbnails(json);
+  // generateData(true, json);
   let dataThumbnails = d3.selectAll("canvas[data-dataset]");
   let regdataThumbnails = d3.selectAll("canvas[data-regdataset]");
   dataThumbnails.classed("selected", false);
   regdataThumbnails.classed("selected", false);
   d3.select("canvas[data-dataset=custom]").classed("selected", true);
-  reset()
+  d3.select("#noise").property("disabled", true);
+  d3.select("label[for='noise']").property("disabled", true);
+  userHasInteracted();
+  parametersChanged = true;
+  reset();
 }
 
 function handleFileSelect(evt) {
