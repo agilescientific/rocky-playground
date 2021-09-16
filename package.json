@@ -1,7 +1,14 @@
 {
   "name": "rocky-playground",
-  "version": "2021.09",
-  "description": "",
+  "version": "2021.09.00",
+  "description": "A neural network playground for earth scientists",
+  "keywords": ["geology", "geophysics", "machine learning", "neural networks"],
+  "author": "Agile Scientific <hello@agilescientific.com> (https://agilescientific.com)",
+  "license": "Apache 2",
+  "bugs": {
+    "url": "https://github.com/agile-geoscience/rocky-playground/issues"
+  },
+  "homepage": "https://playground.geosci.ai/",
   "private": true,
   "scripts": {
     "clean": "rimraf dist",
