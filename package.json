@@ -6,7 +6,7 @@
   "author": "Agile Scientific <hello@agilescientific.com> (https://agilescientific.com)",
   "license": "Apache 2",
   "bugs": {
-    "url": "https://github.com/agile-geoscience/rocky-playground/issues"
+    "url": "https://github.com/agilescientific/rocky-playground/issues"
   },
   "homepage": "https://playground.geosci.ai/",
   "private": true,
