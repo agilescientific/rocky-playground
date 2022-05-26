@@ -13,7 +13,7 @@
   "bugs": {
     "url": "https://github.com/agilescientific/rocky-playground/issues"
   },
-  "homepage": "",
+  "homepage": "https://playground.geosci.ai/",
   "private": true,
   "scripts": {
     "clean": "rimraf dist",
