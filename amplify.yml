@@ -1,0 +1,13 @@
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - npm ci
+    build:
+      commands:
+        - npm run build
+  artifacts:
+    files:
+        - data
+    discard-paths: yes
+    baseDirectory: dist
