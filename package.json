@@ -37,7 +37,7 @@
     "mkdirp": "^1.0.4",
     "rimraf": "2.5.4",
     "serve": "^13.0.1",
-    "tsify": "^5.0.0",
+    "tsify": "^4.0.0",
     "typescript": "^2.9",
     "uglify-js": "^3.4.10",
     "watchify": "^4.0.0"
