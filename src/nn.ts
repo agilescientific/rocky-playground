@@ -193,13 +193,13 @@ export class Activations {
   public static GELU: ActivationFunction = {
     output: x => {
       let term1 = x + 0.044715 * Math.pow(x, 3);
-      let term2 = 1 + Math.tanh(Math.sqrt(2 / Math.PI) * term1);
+      let term2 = 1 + (Math as any).tanh(Math.sqrt(2 / Math.PI) * term1);
       return 0.5 * x * term2;
     },
     der: x => {
       let term1 = 0.398942 * x + 0.0535161 * Math.pow(x, 3);
-      let sech = 1 / Math.cosh(0.797885 * x + 0.0356774 * Math.pow(x, 3));
-      let term2 = 0.5 * Math.tanh(0.797885 * x + 0.0356774 * Math.pow(x, 3));
+      let sech = 1 / (Math as any).cosh(0.797885 * x + 0.0356774 * Math.pow(x, 3));
+      let term2 = 0.5 * (Math as any).tanh(0.797885 * x + 0.0356774 * Math.pow(x, 3));
       return 0.5 + term1 * Math.pow(sech, 2) + term2;
     },
     compileToPy: (input: string) => `${input} * GELU(${input})`
